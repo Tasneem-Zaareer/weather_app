@@ -1,19 +1,19 @@
 class Weather {
   String cityName;
   double temperature;
-  String condition;
+  String weatherCondition;
 
   Weather({
     required this.cityName,
     required this.temperature,
-    required this.condition,
+    required this.weatherCondition,
   });
 
   factory Weather.fromJson(json) {
     return Weather(
-      cityName: '',
-      temperature: 0,
-      condition: '',
+      cityName: json['name'],
+      temperature: json['main']['temp'],
+      weatherCondition: json['weather'][0]['main'],
     );
   }
 }
