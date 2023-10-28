@@ -10,7 +10,7 @@ class WeatherServices {
 
   //get current weather method
   Future<Weather> getCurrentWeather({required String cityName}) async{
-    Response response = await dio.get('$baseUrl/weather?q=$cityName&appid=$apiKey');
+    Response response = await dio.get('$baseUrl/weather?q=$cityName&appid=$apiKey&units=metric');
     Weather weather = Weather.fromJson(response.data);
     print(response);
     return weather;

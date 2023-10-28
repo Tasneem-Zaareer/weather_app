@@ -1,8 +1,12 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/features/services/weather_services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:weather_app/features/home/data/weather_model.dart';
+import 'package:weather_app/features/home/presentation/views/weather_info_view.dart';
 
-import '../../data/weather_model.dart';
+import '../manager/weather_cubit/weather_cubit.dart';
+import '../manager/weather_cubit/weather_states.dart';
+import 'default_weather_info_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -12,67 +16,48 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  //get city
-  final String cityName = 'London';
-
-  // weather object
-  Weather? weather;
-
-  // final currentWeather = WeatherServices(Dio()).getCurrentWeather('London');
-   getWeather() async {
-    Weather w =
-        await WeatherServices(Dio()).getCurrentWeather(cityName: cityName);
-    print(w.weatherCondition);
-    setState(() {
-      weather = w;
-    });
-
-    // return w;
+  //weather animation
+  getWeatherAnimation(String weatherCondition) {
+    switch (weatherCondition.toLowerCase()) {
+      case 'rain':
+        return 'assets/images/rain.json';
+      case 'clouds':
+        return 'assets/images/cloud.json';
+      case 'snow':
+        return 'assets/images/snow.json';
+      case 'sun':
+      case 'clear':
+        return 'assets/images/sun.json';
+      default:
+        return 'assets/images/sun.json';
+    }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    getWeather();
+  void getWeatherCondition() {
+    //Sunny day Walk
+    //It's raining now
+    //Take your umbrella
+    //Take you scarf
   }
 
   @override
   Widget build(BuildContext context) {
+    //var weatherCubit = BlocProvider.of<WeatherCubit>(context);
+    //var weather = BlocProvider.of<WeatherCubit>(context).weatherCubitModel;
+
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/cloudy.png',
-              height: 200,
-            ),
-            Text(
-              'City Name',
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.grey.shade700,
-              ),
-            ),
-            Text(
-              cityName,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            Text(
-              weather?.weatherCondition ?? 'Loading..',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            Text('${weather?.temperature.round().toString()}C',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-          ],
-        ),
+      body: BlocBuilder<WeatherCubit, WeatherState>(
+        builder: (context, state) {
+          if (state is WeatherDefaultState) {
+            //return const DefaultWeatherInfoView();
+            return const WeatherViewInfo();
+          } else if (state is WeatherLoadedState) {
+            return const WeatherViewInfo();
+          } else {
+            //return const CircularProgressIndicator();
+            return Center(child: const Text('Try again'));
+          }
+        },
       ),
     );
   }
