@@ -32,12 +32,6 @@ class WeatherCubit extends Cubit<WeatherState> {
 
   //weather animation
   getWeatherAnimation({required String weatherCondition}) {
-    // if(weatherCondition.toLowerCase() == 'rain'){
-    //   return 'assets/images/rain.json';
-    // }
-    // else{
-    //   return 'assets/images/cloud.json';
-    // }
     switch (weatherCondition.toLowerCase()) {
       case 'rain':
         return 'assets/images/rain.json';
