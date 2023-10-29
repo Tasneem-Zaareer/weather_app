@@ -8,8 +8,11 @@ class  WeatherState extends Equatable{
 
 }
 
-class WeatherDefaultState extends WeatherState{
+class WeatherInitialState extends WeatherState{}
 
+class WeatherDefaultState extends WeatherState{
+  final Weather weather;
+  WeatherDefaultState(this.weather);
 }
 
 class WeatherLoadedState extends WeatherState {

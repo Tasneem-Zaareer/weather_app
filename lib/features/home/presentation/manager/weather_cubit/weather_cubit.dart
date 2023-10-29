@@ -6,16 +6,15 @@ import '../../../data/weather_model.dart';
 
 class WeatherCubit extends Cubit<WeatherState> {
   // WeatherCubit(super.WeatherDefaultState);
-  WeatherCubit() : super(WeatherDefaultState());
-  Weather? weatherCubitModel;
-
+  WeatherCubit() : super(WeatherInitialState());
+  late Weather weatherCubitModel;
 
   getDefaultWeather() async {
     String cityName = 'Japan';
     try {
       weatherCubitModel =
-      await WeatherServices(Dio()).getCurrentWeather(cityName: cityName);
-      emit(WeatherLoadedState(weatherCubitModel!));
+          await WeatherServices(Dio()).getCurrentWeather(cityName: cityName);
+      emit(WeatherDefaultState(weatherCubitModel));
     } catch (e) {
       emit(WeatherFailureState());
     }
@@ -25,9 +24,32 @@ class WeatherCubit extends Cubit<WeatherState> {
     try {
       weatherCubitModel =
           await WeatherServices(Dio()).getCurrentWeather(cityName: cityName);
-      emit(WeatherLoadedState(weatherCubitModel!));
+      emit(WeatherLoadedState(weatherCubitModel));
     } catch (e) {
       emit(WeatherFailureState());
+    }
+  }
+
+  //weather animation
+  getWeatherAnimation({required String weatherCondition}) {
+    // if(weatherCondition.toLowerCase() == 'rain'){
+    //   return 'assets/images/rain.json';
+    // }
+    // else{
+    //   return 'assets/images/cloud.json';
+    // }
+    switch (weatherCondition.toLowerCase()) {
+      case 'rain':
+        return 'assets/images/rain.json';
+      case 'clouds':
+        return 'assets/images/cloud.json';
+      case 'snow':
+        return 'assets/images/snow.json';
+      case 'sun':
+      case 'clear':
+        return 'assets/images/sun.json';
+      default:
+        return 'assets/images/sun.json';
     }
   }
 }
