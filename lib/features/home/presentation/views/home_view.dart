@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/features/home/presentation/views/weather_info_view.dart';
 
@@ -15,7 +16,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   void getWeatherCondition() {
     //Sunny day Walk
     //It's raining now
@@ -28,12 +28,18 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       body: BlocBuilder<WeatherCubit, WeatherState>(
         builder: (context, state) {
-          if (state is WeatherDefaultState) {
-            return const WeatherViewInfo();
-          } else if (state is WeatherLoadedState) {
-            return const WeatherViewInfo();
+      if (state is WeatherDefaultState) {
+        return const DefaultWeatherInfoView(
+        );
+      }
+          else if (state is WeatherLoadedState) {
+            return WeatherViewInfo(
+              weatherModel: state.weather,
+            );
           } else {
-            return const Center(child: CircularProgressIndicator(),);
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),

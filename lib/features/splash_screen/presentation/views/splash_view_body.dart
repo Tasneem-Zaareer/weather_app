@@ -10,7 +10,6 @@ class SplashViewBody extends StatefulWidget {
   @override
   State<SplashViewBody> createState() => _SplashViewBodyState();
 }
-
 class _SplashViewBodyState extends State<SplashViewBody> {
   Timer timerPageNavigator() {
     return Timer(

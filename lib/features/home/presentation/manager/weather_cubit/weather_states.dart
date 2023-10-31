@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import '../../../data/weather_model.dart';
 
-class  WeatherState extends Equatable{
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+class  WeatherState {
+    // extends Equatable{
+  // @override
+  // List<Object?> get props => throw UnimplementedError();
 
 }
 
@@ -21,6 +21,8 @@ class WeatherLoadedState extends WeatherState {
 }
 
 class WeatherFailureState extends WeatherState{
+      final String errorMessage;
 
+  WeatherFailureState(this.errorMessage);
 }
 

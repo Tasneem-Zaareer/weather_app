@@ -15,11 +15,14 @@ class WeatherApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WeatherCubit()..getDefaultWeather(),
-      child: const GetMaterialApp(
+      create: (context) => WeatherCubit()..getWeather(cityName: 'Japan'),
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Weather App',
-        home: SplashView(),
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: const SplashView(),
       ),
     );
   }
