@@ -14,7 +14,7 @@ MaterialColor getThemeColor(String weatherCondition) {
       return Colors.lightBlue;
     case 'sun':
     case 'clear':
-      return Colors.deepPurple;
+      return Colors.teal;
     default:
       return Colors.deepPurple;
   }
@@ -29,7 +29,10 @@ Future<String> getCurrentCity() async {
   }
 
 //fetch current location
-  Position position = await Geolocator.getCurrentPosition();
+  Position position = await Geolocator.getCurrentPosition(
+      // desiredAccuracy: LocationAccuracy.high
+
+  );
 
 //convert location in to of place-mark
   List<Placemark> placemarks =

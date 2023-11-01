@@ -16,16 +16,21 @@ class WeatherViewInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MaterialColor themeColor = getThemeColor(weatherModel.weatherCondition);
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            getThemeColor(weatherModel.weatherCondition),
-            getThemeColor(weatherModel.weatherCondition).shade400,
-            getThemeColor(weatherModel.weatherCondition).shade100,
-            getThemeColor(weatherModel.weatherCondition).shade50,
+            themeColor,
+            themeColor.shade400,
+            themeColor.shade100,
+            themeColor.shade50,
+            // getThemeColor(weatherModel.weatherCondition),
+            // getThemeColor(weatherModel.weatherCondition).shade400,
+            // getThemeColor(weatherModel.weatherCondition).shade100,
+            // getThemeColor(weatherModel.weatherCondition).shade50,
           ],
         ),
       ),
@@ -77,13 +82,16 @@ class WeatherViewInfo extends StatelessWidget {
                               var weatherCubit =
                                   BlocProvider.of<WeatherCubit>(context);
                               weatherCubit.getWeather(cityName: value);
-                            },
+                              Get.back();
+                              },
                           ),
                         );
+
                       },
                       icon: const Icon(
-                        Icons.search,
+                        Icons.add_location_alt_outlined,
                         color: Colors.white,
+                        size: 30,
                       ),
                     )
                   ],
@@ -111,9 +119,10 @@ class WeatherViewInfo extends StatelessWidget {
                   ),
                   Text(
                     '${weatherModel.temperature.round().toString()}°C',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 60,
-                      color: Colors.deepPurple,
+                      //color: Colors.deepPurple,
+                      color: themeColor,
                     ),
                   ),
 
