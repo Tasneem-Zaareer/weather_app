@@ -36,7 +36,8 @@ class _HomeViewState extends State<HomeView> {
             return WeatherViewInfo(
               weatherModel: state.weather,
             );
-          } else {
+          }
+          else {
             return const Center(
               child: CircularProgressIndicator(),
             );

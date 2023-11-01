@@ -12,18 +12,6 @@ class WeatherServices {
   Future<Weather> getCurrentWeather({required String cityName}) async{
     Response response = await dio.get('$baseUrl/weather?q=$cityName&appid=$apiKey&units=metric');
     Weather weather = Weather.fromJson(response.data);
-    print(response);
     return weather;
   }
-
-  //get current city
-
-  //get permission from user
-
-  //fetch current location
-
-  //convert location in to of place-mark
-
-  //extract city name from the first place-mark
-
 }

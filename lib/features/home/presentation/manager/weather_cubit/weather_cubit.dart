@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/core/functions.dart';
 import 'package:weather_app/features/home/presentation/manager/weather_cubit/weather_states.dart';
 import '../../../../services/weather_services.dart';
 import '../../../data/weather_model.dart';
@@ -7,32 +8,21 @@ import '../../../data/weather_model.dart';
 class WeatherCubit extends Cubit<WeatherState> {
   // WeatherCubit(super.WeatherDefaultState);
   WeatherCubit() : super(WeatherInitialState());
-  //late Weather weatherCubitModel;
-
-  // getDefaultWeather() async {
-  //   String cityName = 'Japan';
-  //   try {
-  //     weatherCubitModel =
-  //         await WeatherServices(Dio()).getCurrentWeather(cityName: cityName);
-  //     emit(WeatherDefaultState(weatherCubitModel));
-  //   } catch (e) {
-  //     emit(WeatherFailureState());
-  //   }
-  // }
-
+  bool defaultCity = true;
   getWeather({required String cityName}) async {
-    print('get fun');
+
+    String city = await getCurrentCity();
+    if(defaultCity == true){cityName = city;}
     try {
-      print('try get fun');
       Weather weatherCubitModel =
           await WeatherServices(Dio()).getCurrentWeather(cityName: cityName);
-      print('before emit');
+      defaultCity=false;
       emit(WeatherLoadedState(weatherCubitModel));
-      print('after emit');
     } catch (e) {
       emit(WeatherFailureState(
         e.toString(),
-      ));
+      ),
+      );
     }
   }
 }

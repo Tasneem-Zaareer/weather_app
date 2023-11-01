@@ -10,16 +10,8 @@ class SplashViewBody extends StatefulWidget {
   @override
   State<SplashViewBody> createState() => _SplashViewBodyState();
 }
-class _SplashViewBodyState extends State<SplashViewBody> {
-  Timer timerPageNavigator() {
-    return Timer(
-      const Duration(seconds: 10),
-          () {
-        Get.to(const HomeView());
-      },
-    );
-  }
 
+class _SplashViewBodyState extends State<SplashViewBody> {
   @override
   void initState() {
     super.initState();
@@ -28,7 +20,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Column(
         children: [
           const SizedBox(height: 100),
@@ -51,7 +43,14 @@ class _SplashViewBodyState extends State<SplashViewBody> {
         ],
       ),
     );
+  }
 
-
+  Timer timerPageNavigator() {
+    return Timer(
+      const Duration(seconds: 5),
+      () {
+        Get.to(()=> const HomeView());
+      },
+    );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_app/features/home/presentation/views/search_view.dart';
 import '../../../../core/functions.dart';
 import '../../data/weather_model.dart';
 import '../manager/weather_cubit/weather_cubit.dart';
@@ -17,100 +16,91 @@ class WeatherViewInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var weatherModel = BlocProvider.of<WeatherCubit>(context).weatherCubitModel;
-
     return Container(
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          getThemeColor(weatherModel.weatherCondition),
-          getThemeColor(weatherModel.weatherCondition).shade400,
-          getThemeColor(weatherModel.weatherCondition).shade100,
-          getThemeColor(weatherModel.weatherCondition).shade50,
-        ],
-      )),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 50,
-          horizontal: 25.0,
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            getThemeColor(weatherModel.weatherCondition),
+            getThemeColor(weatherModel.weatherCondition).shade400,
+            getThemeColor(weatherModel.weatherCondition).shade100,
+            getThemeColor(weatherModel.weatherCondition).shade50,
+          ],
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 80,
-                        child: Text(
-                          '${weatherModel.weatherCondition} day walk',
-                          style: const TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 50,
+          left: 25.0,
+          right: 25.0,
+          bottom: 75,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 80,
+                      child: Text(
+                        '${weatherModel.weatherCondition} day walk',
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Get.to(()=> const SearchView());
-                        },
-                        icon: const Icon(Icons.search),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Center(
-                    child: Lottie.asset(
-                      getWeatherAnimation(
-                          weatherCondition: weatherModel.weatherCondition),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 25),
-              Column(
-                children: [
-                  const Text(
-                    'Weather for another city',
-                    style: TextStyle(
-                      color: Colors.deepPurple,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.clear),
+                    IconButton(
+                      onPressed: () {
+                        Get.defaultDialog(
+                          title: 'Weather for another city',
+                          textCancel: 'cancel',
+                          textConfirm: 'search',
+                          content: TextField(
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.clear),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                            onSubmitted: (value) async {
+                              var weatherCubit =
+                                  BlocProvider.of<WeatherCubit>(context);
+                              weatherCubit.getWeather(cityName: value);
+                            },
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      hintText: 'Country or City',
-                      focusColor: Colors.red,
-                    ),
-                    onSubmitted: (value) async{
-                      var weatherCubit = BlocProvider.of<WeatherCubit>(context);
-                      weatherCubit.getWeather(cityName: value);
-
-                      //getWeather();
-                    },
+                    )
+                  ],
+                ),
+                const SizedBox(height: 75),
+                Center(
+                  child: Lottie.asset(
+                    getWeatherAnimation(
+                        weatherCondition: weatherModel.weatherCondition),
                   ),
-                ],
-              ),
-              const SizedBox(height: 100),
-              Column(
+                ),
+              ],
+            ),
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     weatherModel.cityName,
@@ -126,12 +116,33 @@ class WeatherViewInfo extends StatelessWidget {
                       color: Colors.deepPurple,
                     ),
                   ),
+
+                  //Text(getCurrentCity() as String),
+
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  //get weather animation
+  String getWeatherAnimation({required String weatherCondition}) {
+    switch (weatherCondition.toLowerCase()) {
+      case 'rain':
+        return 'assets/images/rain.json';
+      case 'clouds':
+      case 'haze':
+        return 'assets/images/cloud.json';
+      case 'snow':
+        return 'assets/images/snow.json';
+      case 'sun':
+      case 'clear':
+        return 'assets/images/sun.json';
+      default:
+        return 'assets/images/sun.json';
+    }
   }
 }
