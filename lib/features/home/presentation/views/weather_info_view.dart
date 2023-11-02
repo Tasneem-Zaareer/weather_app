@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weather_app/features/home/presentation/views/search_view.dart';
 import '../../../../core/functions.dart';
 import '../../data/weather_model.dart';
 import '../manager/weather_cubit/weather_cubit.dart';
@@ -64,29 +65,7 @@ class WeatherViewInfo extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        Get.defaultDialog(
-                          title: 'Weather for another city',
-                          textCancel: 'cancel',
-                          textConfirm: 'search',
-                          content: TextField(
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.clear),
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            onSubmitted: (value) async {
-                              var weatherCubit =
-                                  BlocProvider.of<WeatherCubit>(context);
-                              weatherCubit.getWeather(cityName: value);
-                              Get.back();
-                              },
-                          ),
-                        );
-
+                        Get.to(()=> const SearchView());
                       },
                       icon: const Icon(
                         Icons.add_location_alt_outlined,
