@@ -10,11 +10,6 @@ class  WeatherState {
 
 class WeatherInitialState extends WeatherState{}
 
-class WeatherDefaultState extends WeatherState{
-  final Weather weather;
-  WeatherDefaultState(this.weather);
-}
-
 class WeatherLoadedState extends WeatherState {
   final Weather weather;
   WeatherLoadedState(this.weather);

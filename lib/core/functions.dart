@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 MaterialColor getThemeColor(String weatherCondition) {
   switch (weatherCondition.toLowerCase()) {
     case 'rain':
-      return Colors.blue;
+      return Colors.indigo;
     case 'clouds':
     case 'haze':
       return Colors.blueGrey;
